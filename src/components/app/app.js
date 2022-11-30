@@ -13,11 +13,12 @@ class App extends Component {
         super(props);
         this.state = {
             data: [
-                {name: 'Эстебес уулу Адилет', salary: 1000, increase: true, rise: false, id: 1},
-                {name: 'Абыкеев Нурсултан', salary: 900, increase: false, rise: true, id: 2},
-                {name: 'Бердибеков Нурболот', salary: 800, increase: false, rise: false, id: 3}
+                {name: 'Эстебес уулу Адилет', salary: 2000, increase: true, rise: false, id: 1},
+                {name: 'Абыкеев Нурсултан', salary: 1500, increase: false, rise: true, id: 2},
+                {name: 'Бердибеков Нурболот', salary: 900, increase: false, rise: false, id: 3}
             ],
-            term: ''
+            term: '',
+            filter: 'all'
         }
         this.maxId = 4;
     }
@@ -71,11 +72,26 @@ class App extends Component {
         this.setState({term});
     }
 
+    filterPost = (items, filter) => {
+        switch (filter) {
+            case 'rise':
+                return items.filter(item => item.rise);
+            case 'moreThen1000':
+                return items.filter(item => item.salary > 1000);
+            default: 
+                return items
+        }
+    }
+
+    onFilterSelect = (filter) => {
+        this.setState({filter});
+    }
+
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         const employers = this.state.data.length;
         const increased = this.state.data.filter(item => item.increase).length;
-        const visibleData = this.searchEmp(data, term);
+        const visibleData = this.filterPost(this.searchEmp(data, term), filter);
 
         return (
             <div className="app">
@@ -83,7 +99,7 @@ class App extends Component {
     
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-                    <AppFilter/>
+                    <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
                 </div>
                 
                 <EmployersList 
