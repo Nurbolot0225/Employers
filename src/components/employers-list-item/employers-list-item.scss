@@ -43,11 +43,12 @@
         transform: translateX(30px);
         opacity: 0;
     }
-    .like {
-        .fa-star {
-            opacity: 1;
-            transform: translateX(0px);
-        }
+}
+
+.like {
+    .fa-star {
+        opacity: 1;
+        transform: translateX(0px);
     }
 }
 
